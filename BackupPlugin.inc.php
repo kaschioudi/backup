@@ -60,15 +60,6 @@ class BackupPlugin extends GenericPlugin {
 	}
 
 	/**
-	 * Get plugin JS URL
-	 *
-	 * @return string Public plugin JS URL
-	 */
-	public function getJsUrl($request) {
-		return $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js';
-	}
-
-	/**
 	 * @copydoc Plugin::getActions()
 	 */
 	public function getActions($request, $verb) {
@@ -102,7 +93,6 @@ class BackupPlugin extends GenericPlugin {
 					'pluginName' 		=> $this->getName(),
 					'isDumpConfigured' 	=> Config::getVar('cli', 'dump')!='',
 					'isTarConfigured' 	=> Config::getVar('cli', 'tar')!='',
-					'pluginJavaScriptURL' 	=> $this->getJsUrl($request),
 					'errorMessage' 		=> __('plugins.generic.backup.failure')
 				));
 				$output = $templateMgr->fetch($this->getTemplatePath() . 'index.tpl');

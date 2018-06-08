@@ -8,9 +8,30 @@
  * List of operations this plugin can perform
  *}
 
-<script src="{$pluginJavaScriptURL}/BackupDownloadHandler.js"></script>
 <script type="text/javascript">
-	$.pkp.plugins.backup.js.BackupDownloadHandler();
+$('ul#downloadLinks a').click(function(e) {ldelim}
+	e.preventDefault();
+	var errorMessage = $(this).closest('ul').data('message');
+	var url = $(this).attr('href');
+	var req = fetch(url, {ldelim}credentials: "same-origin"{rdelim})
+		.then(function(response) {ldelim}
+			if (!response.ok) {ldelim} throw Error(response.statusText); {rdelim}
+			return response.blob(); 
+		{rdelim})
+		.then(function(blob) {ldelim}
+			window.open(
+				URL.createObjectURL(
+					new Blob([blob], {ldelim}
+						type: "application/octet-stream"
+					{rdelim})
+				),
+				"_self"
+			)
+		{rdelim})
+		.catch(function(err) {ldelim}
+			alert(errorMessage);
+		{rdelim});
+{rdelim});
 </script>
 
 {fbvFormSection description="plugins.generic.backup.longdescription" class="notice"}{/fbvFormSection}
