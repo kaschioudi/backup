@@ -69,7 +69,7 @@ class BackupPlugin extends GenericPlugin {
 	}
 
 	/**
-	 * @see Plugin::getActions()
+	 * @copydoc Plugin::getActions()
 	 */
 	public function getActions($request, $verb) {
 		$router = $request->getRouter();
@@ -91,18 +91,20 @@ class BackupPlugin extends GenericPlugin {
 	}
 
 	/**
-	 * @see PKPPlugin::manage()
+	 * @copydoc PKPPlugin::manage()
 	 */
 	public function manage($args, $request) {
 		$router = $request->getRouter();
 		switch ($request->getUserVar('verb')) {
 			case 'backup':
 				$templateMgr = TemplateManager::getManager($request);
-				$templateMgr->assign('pluginName', $this->getName());
-				$templateMgr->assign('isDumpConfigured', Config::getVar('cli', 'dump')!='');
-				$templateMgr->assign('isTarConfigured', Config::getVar('cli', 'tar')!='');
-				$templateMgr->assign('pluginJavaScriptURL', $this->getJsUrl($request));
-				$templateMgr->assign('errorMessage', __('plugins.generic.backup.failure'));
+				$templateMgr->assign(array(
+					'pluginName' 		=> $this->getName(),
+					'isDumpConfigured' 	=> Config::getVar('cli', 'dump')!='',
+					'isTarConfigured' 	=> Config::getVar('cli', 'tar')!='',
+					'pluginJavaScriptURL' 	=> $this->getJsUrl($request),
+					'errorMessage' 		=> __('plugins.generic.backup.failure')
+				));
 				$output = $templateMgr->fetch($this->getTemplatePath() . 'index.tpl');
 				return new JSONMessage(true, $output);
 			case 'db':
