@@ -9,28 +9,30 @@
  *}
 
 <script type="text/javascript">
-$('ul#downloadLinks a').click(function(e) {ldelim}
-	e.preventDefault();
-	var errorMessage = $(this).closest('ul').data('message');
-	var url = $(this).attr('href');
-	var req = fetch(url, {ldelim}credentials: "same-origin"{rdelim})
-		.then(function(response) {ldelim}
-			if (!response.ok) {ldelim} throw Error(response.statusText); {rdelim}
-			return response.blob(); 
-		{rdelim})
-		.then(function(blob) {ldelim}
-			window.open(
-				URL.createObjectURL(
-					new Blob([blob], {ldelim}
-						type: "application/octet-stream"
-					{rdelim})
-				),
-				"_self"
-			)
-		{rdelim})
-		.catch(function(err) {ldelim}
-			alert(errorMessage);
-		{rdelim});
+$(function() {ldelim}
+	$('ul#downloadLinks a').click(function(e) {ldelim}
+		e.preventDefault();
+		var errorMessage = $(this).closest('ul').data('message');
+		var url = $(this).attr('href');
+		var req = fetch(url, {ldelim}credentials: "same-origin"{rdelim})
+			.then(function(response) {ldelim}
+				if (!response.ok) {ldelim} throw Error(response.statusText); {rdelim}
+				return response.blob();
+			{rdelim})
+			.then(function(blob) {ldelim}
+				window.open(
+					URL.createObjectURL(
+						new Blob([blob], {ldelim}
+							type: "application/octet-stream"
+						{rdelim})
+					),
+					"_self"
+				)
+			{rdelim})
+			.catch(function(err) {ldelim}
+				alert(errorMessage);
+			{rdelim});
+	{rdelim});
 {rdelim});
 </script>
 
