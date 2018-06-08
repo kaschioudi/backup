@@ -19,5 +19,3 @@
 require_once('BackupPlugin.inc.php');
 
 return new BackupPlugin();
-
-?> 
